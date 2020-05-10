@@ -54,6 +54,7 @@ public class GameSessionService {
     public GameSessionDTO createGameSession(String username, GameSession session){
         GameSession tempGameSession = this.sessionsRepo.save(session);
         // THIS DOES NOT SAVE THE USER TO THE GAME SESSIONS
+        // If I save the user first, it still doesn't save the connection??
         User user = readUserByUsername(username);
         List<GameSession> currentSessions = user.getGameSessions();
         currentSessions.add(session);
