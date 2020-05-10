@@ -52,6 +52,7 @@ public class GameSessionServiceUnitTest {
     private Duration zeroTime;
     private LocalDateTime date;
     private User player1;
+    private User player1WithSession;
     //private Sort sort;
 
     private GameSessionDTO mapToDTO(GameSession session){
@@ -64,11 +65,14 @@ public class GameSessionServiceUnitTest {
         this.gameSessionDTOList = new ArrayList<>();
         zeroTime = Duration.ofHours(0);
         player1 = new User(1L, "testUser", zeroTime, zeroTime, zeroTime, null);
+        player1WithSession = player1;
         this.usersRepo.save(player1);
         this.testSession = new GameSession(player1, "hello world", zeroTime, date);
-        this.gameSessionList.add(testSession);
         this.testSessionWithId = new GameSession(testSession.getUsername(), testSession.getGameName(), testSession.getTimePlayed(), testSession.getTimeOfSession());
         this.testSessionWithId.setSessionId(sessionId);
+        this.gameSessionList.add(testSessionWithId);
+        player1WithSession.setGameSessions(gameSessionList);
+        this.usersRepo.save(player1WithSession);
         this.repo.save(testSessionWithId); //in the GameSessionRepo there should be a session
         this.sessionDTO = this.mapToDTO(testSessionWithId);
         this.gameSessionDTOList.add(sessionDTO);
@@ -100,10 +104,13 @@ public class GameSessionServiceUnitTest {
 
     @Test
     public void createGameSessionTest() {
+        when(this.usersRepo.findUserByUsername(player1.getUsername())).thenReturn(player1);
+        when(usersRepo.save(player1WithSession)).thenReturn(player1WithSession);
         when(repo.save(testSession)).thenReturn(this.testSessionWithId);
         when(this.mapper.map(testSessionWithId, GameSessionDTO.class)).thenReturn(sessionDTO);
-        assertEquals(this.service.createGameSession(testSession), this.sessionDTO);
+        assertEquals(this.service.createGameSession(player1.getUsername(), testSession), this.sessionDTO);
         verify(repo, times(1)).save(this.testSession);
+        verify(usersRepo, times(3)).save(player1WithSession); //called once in method, 2 times in setUp
     }
 
     @Test

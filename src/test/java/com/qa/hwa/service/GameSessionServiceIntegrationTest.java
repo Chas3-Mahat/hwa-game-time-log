@@ -91,10 +91,11 @@ public class GameSessionServiceIntegrationTest {
     //org.hibernate.LazyInitializationException: could not initialize proxy [com.qa.hwa.domain.User#1] - no Session
     //made fetch EAGER - will want to optimize and change this later
     //Hash codes are different!?
+   //failed to load application context
     @Ignore
     @Test
     public void createGameSessionTest(){
-        assertEquals(this.mapToDTO(this.testSessionWithId), this.service.createGameSession(testSession));
+        assertEquals(this.mapToDTO(this.testSessionWithId), this.service.createGameSession(player1.getUsername(), testSession));
     }
 
     @Ignore

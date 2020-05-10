@@ -110,11 +110,13 @@ public class GameSessionControllerIntegrationTest {
 // Infinite recursion (StackOverflowError) (through reference chain: com.qa.hwa.domain.GameSession["username"]->com.qa.hwa.domain.User["gameSessions"]->org.hibernate.collection.internal.PersistentBag[0]
 // ->com.qa.hwa.domain.GameSession["username"]->com.qa.hwa.domain.User["gameSessions"]->org.hibernate.collection.internal.PersistentBag[0]
     //continuously calling each other.
-   @Ignore
+
+    //failed to load application context
+    @Ignore
    @Test
     public void createSessionsTest() throws Exception {
         String result = this.mock.perform(
-                request(HttpMethod.POST, "/createGameSession")
+                request(HttpMethod.POST, "/createGameSession" + this.player1.getUsername())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(this.objectMapper.writeValueAsString(testSession))
                         .accept(MediaType.APPLICATION_JSON)
