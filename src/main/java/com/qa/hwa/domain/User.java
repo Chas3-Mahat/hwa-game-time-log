@@ -17,7 +17,7 @@ public class User {
     private Duration totalTimePlayed;
     private Duration freeTime;
     private Duration timeRemaining;
-    @OneToMany(mappedBy = "username")
+    @OneToMany(mappedBy = "username", cascade = CascadeType.ALL/*, fetch = FetchType.LAZY*/)
     private List<GameSession> gameSessions;
 
     public User(){}
