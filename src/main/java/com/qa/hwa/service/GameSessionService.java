@@ -52,12 +52,14 @@ public class GameSessionService {
     }
 
     public GameSessionDTO createGameSession(String username, GameSession session){
+        GameSession tempGameSession = this.sessionsRepo.save(session);
+        // THIS DOES NOT SAVE THE USER TO THE GAME SESSIONS
         User user = readUserByUsername(username);
         List<GameSession> currentSessions = user.getGameSessions();
         currentSessions.add(session);
         user.setGameSessions(currentSessions);
         this.usersRepo.save(user);
-        GameSession tempGameSession = this.sessionsRepo.save(session);
+        //THE SESSION ID IS 2 - AS IF BOTH USER ID AND SESSION ID ARE ONE TABLE YET THEY ARE NOT....
         return this.mapToDTO(tempGameSession);
     }
 
