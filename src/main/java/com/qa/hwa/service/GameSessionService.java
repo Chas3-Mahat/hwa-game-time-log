@@ -14,6 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -50,7 +51,12 @@ public class GameSessionService {
         return this.sessionsRepo.findAllByUsername(user).stream().map(this::mapToDTO).collect(Collectors.toList());
     }
 
-    public GameSessionDTO createGameSession(GameSession session){
+    public GameSessionDTO createGameSession(String username, GameSession session){
+        User user = readUserByUsername(username);
+        List<GameSession> currentSessions = user.getGameSessions();
+        currentSessions.add(session);
+        user.setGameSessions(currentSessions);
+        this.usersRepo.save(user);
         GameSession tempGameSession = this.sessionsRepo.save(session);
         return this.mapToDTO(tempGameSession);
     }

@@ -32,9 +32,9 @@ public class GameSessionController {
         return ResponseEntity.ok(this.service.readAUsersGameSessions(username));
     }
 
-    @PostMapping("/createGameSession")
-    public ResponseEntity<GameSessionDTO> createGameSession(@RequestBody GameSession session){
-        return new ResponseEntity<>(this.service.createGameSession(session), HttpStatus.CREATED);
+    @PostMapping("/createGameSession/{username}")
+    public ResponseEntity<GameSessionDTO> createGameSession(@PathVariable String username, @RequestBody GameSession session){
+        return new ResponseEntity<>(this.service.createGameSession(username, session), HttpStatus.CREATED);
     }
 
     @PutMapping("/updateGameSession/{id}")
