@@ -2,6 +2,7 @@ package com.qa.hwa.domain;
 
 import javax.persistence.*;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -18,7 +19,7 @@ public class User {
     private Duration freeTime;
     private Duration timeRemaining;
     @OneToMany(mappedBy = "username", cascade = CascadeType.ALL/*, fetch = FetchType.LAZY*/)
-    private List<GameSession> gameSessions;
+    private List<GameSession> gameSessions = new ArrayList<>();
 
     public User(){}
 
