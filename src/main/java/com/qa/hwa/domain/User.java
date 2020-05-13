@@ -86,9 +86,6 @@ public class User {
 
     public void setGameSessions(List<GameSession> gameSessions) {
         this.gameSessions = gameSessions;
-        for (GameSession session : gameSessions) {
-            session.setUser(this);
-        }
     }
 
     @Override

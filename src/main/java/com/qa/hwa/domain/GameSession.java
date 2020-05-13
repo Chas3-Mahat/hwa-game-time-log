@@ -12,7 +12,7 @@ public class GameSession {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long sessionId;
     @ManyToOne (targetEntity = User.class, fetch = FetchType.LAZY)
-    @JoinColumn /*(name = "user", referencedColumnName = "user_id")*/
+    @JoinColumn/*(name = "user", referencedColumnName = "user_id")*/
     private User user;
     private String gameName;
     private Duration timePlayed;
@@ -47,9 +47,8 @@ public class GameSession {
         return user;
     }
 
-    public void setUser(User user) {
-        this.user = user;
-        user.getGameSessions().add(this);
+    public void setUser(User username) {
+        this.user = username;
     }
 
     public String getGameName() {
