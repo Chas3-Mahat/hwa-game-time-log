@@ -11,7 +11,7 @@ public class GameSession {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long sessionId;
-    @ManyToOne (targetEntity = User.class/*, fetch = FetchType.LAZY*/)
+    @ManyToOne (targetEntity = User.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "user", referencedColumnName = "user_id")
     private User user;
     private String gameName;
