@@ -3,9 +3,7 @@ package com.qa.hwa.service;
 import com.qa.hwa.domain.GameSession;
 import com.qa.hwa.domain.User;
 import com.qa.hwa.dto.GameSessionDTO;
-import com.qa.hwa.dto.UserDTO;
 import com.qa.hwa.exceptions.GameSessionNotFoundException;
-import com.qa.hwa.exceptions.UserNotFoundException;
 import com.qa.hwa.repo.GameSessionsRepository;
 import com.qa.hwa.repo.UsersRepository;
 import org.junit.Before;
@@ -15,7 +13,6 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.modelmapper.ModelMapper;
-import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.Duration;
@@ -68,7 +65,7 @@ public class GameSessionServiceUnitTest {
         player1WithSession = player1;
         this.usersRepo.save(player1);
         this.testSession = new GameSession(player1, "hello world", zeroTime, date);
-        this.testSessionWithId = new GameSession(testSession.getUsername(), testSession.getGameName(), testSession.getTimePlayed(), testSession.getTimeOfSession());
+        this.testSessionWithId = new GameSession(testSession.getUser(), testSession.getGameName(), testSession.getTimePlayed(), testSession.getTimeOfSession());
         this.testSessionWithId.setSessionId(sessionId);
         this.gameSessionList.add(testSessionWithId);
         player1WithSession.setGameSessions(gameSessionList);
@@ -116,7 +113,7 @@ public class GameSessionServiceUnitTest {
     @Test
     public void updateGameSessionTest() {
         GameSession newSession = new GameSession(player1, "new game plus", zeroTime, date);
-        GameSession updateSession = new GameSession(newSession.getUsername(), newSession.getGameName(), newSession.getTimePlayed(), newSession.getTimeOfSession());
+        GameSession updateSession = new GameSession(newSession.getUser(), newSession.getGameName(), newSession.getTimePlayed(), newSession.getTimeOfSession());
         updateSession.setSessionId(sessionId);
 
         GameSessionDTO updateSessionDTO = new ModelMapper().map(updateSession, GameSessionDTO.class);
